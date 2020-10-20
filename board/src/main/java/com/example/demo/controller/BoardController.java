@@ -16,11 +16,12 @@ import com.example.demo.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
 
+@Controller
 @RequiredArgsConstructor
 public class BoardController {
 
 	@Resource(name = "com.example.demo.service.BoardService")
-	BoardService mBoardService;
+	private final BoardService mBoardService;
 
 	@GetMapping("/")
 	public String boardMain(Model model) throws Exception {
@@ -35,7 +36,7 @@ public class BoardController {
 		return "detail";
 	}
 
-	@RequestMapping("/insert")
+	@GetMapping("/insert")
 	private String boardInsertForm() {
 		return "insert";
 	}
@@ -43,14 +44,13 @@ public class BoardController {
 	
 	@RequestMapping("/insertProc")
 	private String boardInsertProc(HttpServletRequest request) throws Exception {
-		private final BoardVO board;
+		BoardVO board = new BoardVO();
 		Date now = new Date();
 		
-//		public InsertData(BoardVO board) {
-//			this.board
-//		}
 
-		
+		board.setTitle(request.getParameter("title"));
+		board.setWriter(request.getParameter("writer"));
+		board.setContents(request.getParameter("contents"));
 		board.setCreated_at(now);
 
 		mBoardService.boardInsertService(board);

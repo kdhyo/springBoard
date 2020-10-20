@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="boardList" resultType="com.example.demo.domain.BoardVO">
     	SELECT
     		*
-    	FROM BOARD
+    	FROM BOARD ORDER BY ID DESC
     </select>
     
     <select id="boardDetail" parameterType="int" resultType="com.example.demo.domain.BoardVO">
