@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -16,15 +17,16 @@ import com.example.demo.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@Controller()
 @RequiredArgsConstructor
 public class BoardController {
-
-	@Resource(name = "com.example.demo.service.BoardService")
 	private final BoardService mBoardService;
 
 	@GetMapping("/")
 	public String boardMain(Model model) throws Exception {
+		
+		BoardVO board = new BoardVO();
+		
 		model.addAttribute("list", mBoardService.boardListService());
 		return "main";
 	}
@@ -41,12 +43,10 @@ public class BoardController {
 		return "insert";
 	}
 
-	
 	@RequestMapping("/insertProc")
 	private String boardInsertProc(HttpServletRequest request) throws Exception {
 		BoardVO board = new BoardVO();
 		Date now = new Date();
-		
 
 		board.setTitle(request.getParameter("title"));
 		board.setWriter(request.getParameter("writer"));
@@ -71,17 +71,16 @@ public class BoardController {
 		BoardVO board = new BoardVO();
 		Date now = new Date();
 
-		board.setId(Integer.parseInt(request.getParameter("id")));
 		board.setTitle(request.getParameter("title"));
 		board.setWriter(request.getParameter("writer"));
 		board.setContents(request.getParameter("contents"));
 		board.setUpdated_at(now);
-		
+
 		System.out.println(board);
-		
+
 		mBoardService.boardUpdateService(board);
 
-		return "redirect:/detail/"+request.getParameter("id");
+		return "redirect:/detail/" + request.getParameter("id");
 	}
 
 	@RequestMapping("/delete/{id}")

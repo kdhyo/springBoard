@@ -7,10 +7,11 @@ import com.example.demo.mapper.BoardMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@ToString
 public class BoardVO {
 	private Integer id;
 	private String title;

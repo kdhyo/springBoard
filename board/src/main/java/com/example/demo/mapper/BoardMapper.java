@@ -25,4 +25,7 @@ public interface BoardMapper {
 	
 	//게시글 삭제
 	public int boardDelete(int id) throws Exception;
+	
+	//총 게시글 개수 확인
+	public int getBoardListCnt() throws Exception;
 }

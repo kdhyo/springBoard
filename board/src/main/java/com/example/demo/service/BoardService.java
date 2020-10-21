@@ -9,13 +9,11 @@ import org.springframework.stereotype.Service;
 import com.example.demo.domain.BoardVO;
 import com.example.demo.mapper.BoardMapper;
 
-import lombok.RequiredArgsConstructor;
-
 @Service("com.example.demo.service.BoardService")
 public class BoardService {
 
 	@Resource(name = "com.example.demo.mapper.BoardMapper")
-	private BoardMapper mBoardMapper;
+	BoardMapper mBoardMapper;
 
 	public List<BoardVO> boardListService() throws Exception {
 		return this.mBoardMapper.boardList();
@@ -35,5 +33,9 @@ public class BoardService {
 
 	public int boardDeleteService(int idx) throws Exception {
 		return this.mBoardMapper.boardDelete(idx);
+	}
+	
+	public int getBoardListCot() throws Exception {
+		return this.mBoardMapper.getBoardListCnt();
 	}
 }
