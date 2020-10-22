@@ -1,26 +1,64 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
-<!-- 제이쿼리 라이브러리 -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<%@ include file="bootstrap.jsp"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script>
+	function readTable(item) {
+		var str = "<tr class='boardList'>";
+		str += "<td>" + item.id + "</td>";
+		str += "<td onclick=\"location.href='/detail?id=" + item.id + "'\">" + item.title + "</td>";
+		str += "<td onclick=\"location.href='/detail?id=" + item.id + "'\">" + item.writer + "</td>";
+		str += "<td onclick=\"location.href='/detail?id=" + item.id + "'\">" + item.created_at + "</td>";
+		if(item.updated_at !== null) {
+			str += "<td onclick=\"location.href='/detail?id=" + item.id + "'\">" + item.updated_at + "</td>";
+		} else {
+			str += "<td onclick=\"location.href='/detail?id=" + item.id + "'\"></td>";
+		}
+		str += "<td><button class='btn btn-primary' onclick=\"location.href='/update/" + item.id + "'\">수정</button> ";
+		str += "<button class='btn btn-danger' onclick=\"location.href='/delete/" + item.id + "'\">삭제</button></td>";
+		str += "</tr>";
+		
+		$("table").append(str);
+	}
 	$(document).ready(function() {
-		$.ajax('/list', {
+		$.ajax('/list?nowPage=1', {
 			success : function(data) {
-				$.each(data, function(i, item) {
-					console.log(item);
-					var str = "<tr>";
-					
-					$('#title').append(item.title);
-				})
+				$.each(data.list, function(i, item) {
+					readTable(item);
+				});
+				for(var i=data.startPage; i<=data.endPage; i++) {
+					$("#pagingBtn").append("<button id='btn" + i + "' onclick='fnList(" + i + ")' class=\"btn btn-primary\">" + i + "</button>")	
+				}
+				if(data.endPage < data.lastPage) {
+					$("#pagingBtn").append(" <button id='nextBtn' onclick='fnList("+ (data.endPage+1) +")' class=\"btn btn-primary\">Next</button>");
+				}
 			}
 		})
 	})
+	
+	function fnList(pageNum) {
+		$.ajax('/list?nowPage=' + pageNum, {
+			success: function(data) {
+				$("#pagingBtn").empty();
+				$(".boardList").remove();
+				$.each(data.list, function(i, item) {
+					readTable(item);
+				});
+				if(data.startPage !== 1) {
+					$("#pagingBtn").append("<button id='previousBtn' onclick='fnList("+ (data.startPage-1) +")' class=\"btn btn-primary\">Previous</button> ");
+				}
+				for(var i=data.startPage; i<=data.endPage; i++) {
+					$("#pagingBtn").append("<button id='btn" + i + "' onclick='fnList(" + i + ")' class=\"btn btn-primary\">" + i + "</button>")	
+				}
+				if(data.endPage < data.lastPage) {
+					$("#pagingBtn").append(" <button id='nextBtn' onclick='fnList("+ (data.endPage+1) +")' class=\"btn btn-primary\">Next</button>");
+				}
+			}
+		})
+	}
 </script>
 <meta charset="UTF-8">
 <title>게시판 목록페이지</title>
@@ -33,7 +71,6 @@
 	<div class="container">
 		<table class="table table-hover">
 			<tr>
-
 				<th>No</th>
 				<th>제목</th>
 				<th>작성자</th>
@@ -41,25 +78,8 @@
 				<th>수정날짜</th>
 				<th></th>
 			</tr>
-			<p id="data">dddd</p>
-			<tr>
-				<td>${l.id}</td>
-				<td id="title" onclick="location.href='/detail/${l.id}'">${l.title}</td>
-				<td id="writer" onclick="location.href='/detail/${l.id}'">${l.writer}</td>
-				<td id="created_at" onclick="location.href='/detail/${l.id}'"><fmt:formatDate
-						pattern="yyyy년 MM월 dd일 HH:mm:ss" value="${l.created_at}" /></td>
-				<td id="updated_at" onclick="location.href='/detail/${l.id}'"><fmt:formatDate
-						pattern="yyyy년 MM월 dd일 HH:mm:ss" value="${l.updated_at}" /></td>
-				<td><button class="btn btn-primary"
-						onclick="location.href='/update/${l.id}'">수정</button>
-
-					<button class="btn btn-danger"
-						onclick="location.href='/delete/${l.id}'">삭제</button></td>
-
-			</tr>
 		</table>
+		<div id="pagingBtn"></div>
 	</div>
-
-	<%@ include file="bootstrap.jsp"%>
 </body>
 </html>

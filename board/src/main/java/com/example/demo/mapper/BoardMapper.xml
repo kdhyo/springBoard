@@ -4,16 +4,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.demo.mapper.BoardMapper">
  
-    <select id="selectBoardTotalCount" resultType="int">
-        SELECT
-            COUNT(*)
-        FROM BOARD
+    <select id="boardCount" resultType="int">
+        SELECT COUNT(*) FROM BOARD
     </select>
     
     <select id="boardList" resultType="com.example.demo.domain.BoardVO">
     	SELECT
     		*
-    	FROM BOARD ORDER BY ID DESC
+    	FROM BOARD ORDER BY ID DESC OFFSET #{start} LIMIT #{size}
     </select>
     
     <select id="boardDetail" parameterType="int" resultType="com.example.demo.domain.BoardVO">
@@ -43,4 +41,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id = "boardDelete" parameterType="int">
     	DELETE FROM BOARD WHERE ID = #{id}
     </delete>
+    
+    <select id="selectBoard" resultType="com.example.demo.domain.BoardVO">
+    	SELECT * FROM (SELECT ROWNUM RN, A.* FROM(SELECT * FROM BOARD ORDER BY ID DESC) A)
+    	WHERE RN BETWEEN #{start} AND #{end}
+    </select>
 </mapper>

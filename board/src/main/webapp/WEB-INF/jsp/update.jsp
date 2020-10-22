@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<%@ include file="bootstrap.jsp"%>
 <title>Insert title here</title>
 </head>
 <body>
@@ -29,7 +30,5 @@
 			onclick="javascript:history.back();">뒤로가기</button>
     </form>
 </div>
-
-<%@ include file="bootstrap.jsp" %>
 </body>
 </html>

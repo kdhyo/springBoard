@@ -2,10 +2,7 @@ package com.example.demo.domain;
 
 import java.util.Date;
 
-import com.example.demo.mapper.BoardMapper;
-
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 

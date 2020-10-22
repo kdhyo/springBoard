@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<%@ include file="bootstrap.jsp"%>
 <title>Insert title here</title>
 </head>
 <body>
@@ -26,7 +27,5 @@
       <button type="submit" class="btn btn-primary">작성</button>
     </form>
 </div>
-
-<%@ include file="bootstrap.jsp" %>
 </body>
 </html>

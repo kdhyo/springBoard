@@ -1,9 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.Date;
-import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -24,17 +22,11 @@ public class BoardController {
 
 	@GetMapping("/")
 	public String boardMain(Model model) throws Exception {
-		
-		BoardVO board = new BoardVO();
-		
-		model.addAttribute("list", mBoardService.boardListService());
 		return "main";
 	}
 
-	@RequestMapping("/detail/{id}")
-	private String boardDetail(@PathVariable int id, Model model) throws Exception {
-		model.addAttribute("detail", mBoardService.boardDetailService(id));
-
+	@RequestMapping("/detail")
+	private String boardDetail() throws Exception {
 		return "detail";
 	}
 
@@ -71,16 +63,14 @@ public class BoardController {
 		BoardVO board = new BoardVO();
 		Date now = new Date();
 
+		board.setId(Integer.parseInt(request.getParameter("id")));
 		board.setTitle(request.getParameter("title"));
 		board.setWriter(request.getParameter("writer"));
 		board.setContents(request.getParameter("contents"));
 		board.setUpdated_at(now);
 
-		System.out.println(board);
-
 		mBoardService.boardUpdateService(board);
-
-		return "redirect:/detail/" + request.getParameter("id");
+		return "redirect:/detail?id=" + request.getParameter("id");
 	}
 
 	@RequestMapping("/delete/{id}")

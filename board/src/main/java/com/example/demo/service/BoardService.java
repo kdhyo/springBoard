@@ -1,12 +1,11 @@
 package com.example.demo.service;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import com.example.demo.domain.BoardVO;
+import com.example.demo.domain.PagingVO;
 import com.example.demo.mapper.BoardMapper;
 
 @Service("com.example.demo.service.BoardService")
@@ -15,8 +14,11 @@ public class BoardService {
 	@Resource(name = "com.example.demo.mapper.BoardMapper")
 	BoardMapper mBoardMapper;
 
-	public List<BoardVO> boardListService() throws Exception {
-		return this.mBoardMapper.boardList();
+	public PagingVO<BoardVO> boardListService(int nowPage) throws Exception {
+		int total = this.mBoardMapper.boardCount();
+		PagingVO<BoardVO> page = new PagingVO<BoardVO>(nowPage, total);
+		page.setList(mBoardMapper.boardList(page));
+		return page;
 	}
 
 	public BoardVO boardDetailService(int idx) throws Exception {
@@ -33,9 +35,5 @@ public class BoardService {
 
 	public int boardDeleteService(int idx) throws Exception {
 		return this.mBoardMapper.boardDelete(idx);
-	}
-	
-	public int getBoardListCot() throws Exception {
-		return this.mBoardMapper.getBoardListCnt();
 	}
 }
