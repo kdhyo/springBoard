@@ -32,8 +32,11 @@
 				for(var i=data.startPage; i<=data.endPage; i++) {
 					$("#pagingBtn").append("<button id='btn" + i + "' onclick='fnList(" + i + ")' class=\"btn btn-primary\">" + i + "</button>")	
 				}
+				if(data.nowPage < data.lastPage) {
+					$("#pagingBtn").append(" <button id='nextBtn' onclick='fnList("+ (data.nowPage+1) +")' class=\"btn btn-primary\">></button>");
+				}
 				if(data.endPage < data.lastPage) {
-					$("#pagingBtn").append(" <button id='nextBtn' onclick='fnList("+ (data.endPage+1) +")' class=\"btn btn-primary\">Next</button>");
+					$("#pagingBtn").append(" <button id='nextBtn' onclick='fnList("+ (data.endPage+1) +")' class=\"btn btn-primary\">>></button>");
 				}
 			}
 		})
@@ -47,14 +50,21 @@
 				$.each(data.list, function(i, item) {
 					readTable(item);
 				});
+				if(data.nowPage !== 1) {
+					$("#pagingBtn").append("<button id='previousBtn' onclick='fnList(1)' class=\"btn btn-primary\"><<</button> ");
+					$("#pagingBtn").append("<button id='previousBtn' onclick='fnList("+ (data.nowPage - 1) +")' class=\"btn btn-primary\"><</button> ");
+				}
 				if(data.startPage !== 1) {
 					$("#pagingBtn").append("<button id='previousBtn' onclick='fnList("+ (data.startPage-1) +")' class=\"btn btn-primary\">Previous</button> ");
 				}
 				for(var i=data.startPage; i<=data.endPage; i++) {
 					$("#pagingBtn").append("<button id='btn" + i + "' onclick='fnList(" + i + ")' class=\"btn btn-primary\">" + i + "</button>")	
 				}
+				if(data.nowPage < data.lastPage) {
+					$("#pagingBtn").append(" <button id='nextBtn' onclick='fnList("+ (data.nowPage+1) +")' class=\"btn btn-primary\">></button>");
+				}
 				if(data.endPage < data.lastPage) {
-					$("#pagingBtn").append(" <button id='nextBtn' onclick='fnList("+ (data.endPage+1) +")' class=\"btn btn-primary\">Next</button>");
+					$("#pagingBtn").append(" <button id='nextBtn' onclick='fnList("+ (data.endPage+1) +")' class=\"btn btn-primary\">>></button>");
 				}
 			}
 		})

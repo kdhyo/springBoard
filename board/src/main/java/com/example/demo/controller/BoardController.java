@@ -35,21 +35,6 @@ public class BoardController {
 		return "insert";
 	}
 
-	@RequestMapping("/insertProc")
-	private String boardInsertProc(HttpServletRequest request) throws Exception {
-		BoardVO board = new BoardVO();
-		Date now = new Date();
-
-		board.setTitle(request.getParameter("title"));
-		board.setWriter(request.getParameter("writer"));
-		board.setContents(request.getParameter("contents"));
-		board.setCreated_at(now);
-
-		mBoardService.boardInsertService(board);
-
-		return "redirect:/";
-	}
-
 	@RequestMapping("/update/{id}")
 	private String boardUpdateForm(@PathVariable int id, Model model) throws Exception {
 

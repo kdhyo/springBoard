@@ -1,7 +1,12 @@
 package com.example.demo.controller;
 
+import java.util.Date;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,5 +28,23 @@ public class BoardAPIController {
 	@GetMapping("/detail/{id}")
 	private BoardVO boardDetail(@PathVariable int id) throws Exception {
 		return mBoardService.boardDetailService(id);
+	}
+	
+	@PostMapping("/insertProc")
+	private Boolean boardInsertProc(HttpServletRequest request) throws Exception {
+		BoardVO board = new BoardVO();
+		Date now = new Date();
+
+		board.setTitle(request.getParameter("title"));
+		board.setWriter(request.getParameter("writer"));
+		board.setContents(request.getParameter("contents"));
+		board.setCreated_at(now);
+
+		try {
+			mBoardService.boardInsertService(board);
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
 	}
 }
