@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,7 +45,13 @@ public class BoardAPIController {
 			mBoardService.boardInsertService(board);
 			return true;
 		} catch(Exception e) {
+			System.out.println(e);
 			return false;
 		}
+	}
+	
+	@PostMapping("/delete/{id}")
+	private int boardDelete(@PathVariable int id) throws Exception {
+		return mBoardService.boardDeleteService(id);
 	}
 }

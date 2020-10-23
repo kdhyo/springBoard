@@ -57,10 +57,4 @@ public class BoardController {
 		mBoardService.boardUpdateService(board);
 		return "redirect:/detail?id=" + request.getParameter("id");
 	}
-
-	@RequestMapping("/delete/{id}")
-	private String boardDelete(@PathVariable int id) throws Exception {
-		mBoardService.boardDeleteService(id);
-		return "redirect:/";
-	}
 }

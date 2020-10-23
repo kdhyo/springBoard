@@ -18,7 +18,7 @@ public class BoardApplication {
 	}
 	
 	/*
-	 * * SqlSessionFactory 설정
+	 * * SqlSessionFactory d설정
 	 */
 	@Bean
 	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
